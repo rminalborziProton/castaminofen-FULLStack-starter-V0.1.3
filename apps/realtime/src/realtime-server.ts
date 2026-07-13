@@ -78,6 +78,8 @@ export class RealtimeService {
       socketWithData.data.sessionId = sessionId;
       socketWithData.data.rooms = [];
 
+      void socket.join(`user:${userId}`);
+
       socket.emit('connection:ready', {
         sessionId,
         userId,
