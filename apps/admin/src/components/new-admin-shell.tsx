@@ -22,24 +22,23 @@ import {
 import {
   Activity,
   Bell,
-  BookOpen,
   Bot,
   Boxes,
   BriefcaseBusiness,
   ChevronRight,
-  CircleAlert,
   Command,
   Compass,
   Database,
   FileText,
+  Flag,
   FolderPlus,
   Gauge,
   HardDrive,
   LayoutGrid,
-  LifeBuoy,
   ListFilter,
   Lock,
   LogOut,
+  Mic,
   MonitorPlay,
   Moon,
   PanelLeftClose,
@@ -53,21 +52,16 @@ import {
   Sun,
   UploadCloud,
   Users,
-  Wrench,
+  type LucideIcon,
 } from 'lucide-react';
-import {
-  demoUsers,
-  dashboardActivity,
-  dashboardChartData,
-  dashboardMetrics,
-} from '../lib/admin-data';
+import { dashboardActivity, dashboardChartData, dashboardMetrics } from '../lib/admin-data';
 
 const navigation = [
   { href: '/dashboard', label: 'Overview', icon: LayoutGrid },
   { href: '/analytics', label: 'Analytics', icon: Gauge },
   { href: '/users', label: 'Users', icon: Users },
   { href: '/channels', label: 'Channels', icon: MonitorPlay },
-  { href: '/podcasts', label: 'Podcasts', icon: Mic2 },
+  { href: '/podcasts', label: 'Podcasts', icon: Mic },
   { href: '/episodes', label: 'Episodes', icon: PlayCircle },
   { href: '/categories', label: 'Categories', icon: FolderPlus },
   { href: '/tags', label: 'Tags', icon: Sparkles },
@@ -112,7 +106,7 @@ function ModuleCard({
 }: {
   href: string;
   label: string;
-  icon: any;
+  icon: LucideIcon;
   description: string;
 }) {
   const pathname = usePathname();
@@ -361,7 +355,6 @@ export function NewAdminDashboardShell() {
       if (event.key === 'Escape') {
         setShowCommandPalette(false);
         setShowNotifications(false);
-        setShowUserMenu(false);
       }
     };
 
