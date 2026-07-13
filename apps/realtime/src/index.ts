@@ -1,10 +1,8 @@
-import { AppBootstrap } from './app';
+import { createRealtimeApp } from './bootstrap.js';
 
-export { AppBootstrap } from './app';
-
-// TODO: register routes, services, or handlers for the realtime application.
+export { createRealtimeApp } from './bootstrap.js';
 
 export const appName = 'realtime';
 
-const bootstrap = new AppBootstrap(appName);
-bootstrap.start();
+const realtime = createRealtimeApp();
+realtime.start();
