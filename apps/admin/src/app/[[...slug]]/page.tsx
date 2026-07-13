@@ -1,5 +1,5 @@
-import { AdminDashboardShell } from '../../components/admin-shell';
+import { NewAdminDashboardShell } from '../../components/new-admin-shell';
 
 export default function CatchAllPage() {
-  return <AdminDashboardShell />;
+  return <NewAdminDashboardShell />;
 }
