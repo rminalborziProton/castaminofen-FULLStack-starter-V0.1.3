@@ -1,13 +1,13 @@
 # Team Quick Start
 
-This document provides a clean and professional setup guide for the team to run the project locally.
+This guide reflects the current monorepo layout and the commands that are valid for local development.
 
 ## Prerequisites
 
 Make sure the following tools are installed:
 
 - Node.js 20+
-- pnpm
+- pnpm 10+
 - Docker Desktop or Docker Engine
 - Git
 - VS Code or another terminal
@@ -34,7 +34,7 @@ npm install -g pnpm
 
 ```bash
 git clone <repository-url>
-cd castaminofen-FULLStack-starter
+cd castaminofen-FULLStack-starter-V0.1.3
 ```
 
 ---
@@ -45,7 +45,7 @@ cd castaminofen-FULLStack-starter
 pnpm install
 ```
 
-If dependency installation fails, retry with:
+If installation fails, retry with:
 
 ```bash
 pnpm install --frozen-lockfile
@@ -55,19 +55,18 @@ pnpm install --frozen-lockfile
 
 ## 3. Configure Environment Variables
 
-Create the environment file:
+There is no .env.example file in this repository, so create .env manually:
 
 ```bash
-cp .env.example .env
-```
-
-Ensure the following values exist in .env:
-
-```env
+cat > .env <<'EOF'
 NODE_ENV=development
 PORT=3000
+NEXT_PUBLIC_API_URL=http://localhost:3000
 DATABASE_URL=postgresql://postgres:postgres@localhost:5432/castaminofen
 REDIS_URL=redis://localhost:6379
+REALTIME_PORT=4100
+REALTIME_HOST=0.0.0.0
+EOF
 ```
 
 ---
@@ -93,13 +92,13 @@ docker compose ps
 Run Prisma migrations:
 
 ```bash
-pnpm prisma migrate dev
+pnpm exec prisma migrate dev
 ```
 
 If seed data is available:
 
 ```bash
-pnpm prisma db seed
+pnpm exec prisma db seed
 ```
 
 ---
@@ -115,8 +114,10 @@ pnpm dev
 Expected local URLs:
 
 - http://localhost:3000
+- http://localhost:3001
+- ws://localhost:4100
 
-If the app uses a different port, confirm it from the terminal output.
+If a port is already in use, confirm the actual address from the terminal output.
 
 ---
 
@@ -132,6 +133,24 @@ pnpm --filter @castaminofen/app-api dev
 
 ```bash
 pnpm --filter @castaminofen/app-web dev
+```
+
+### Run Admin only
+
+```bash
+pnpm --filter @castaminofen/app-admin dev
+```
+
+### Run Realtime only
+
+```bash
+pnpm --filter @castaminofen/app-realtime dev
+```
+
+### Run Worker only
+
+```bash
+pnpm --filter @castaminofen/app-worker dev
 ```
 
 ### Run tests
@@ -182,6 +201,9 @@ docker compose restart postgres
 
 - apps/api: backend API
 - apps/web: frontend web app
+- apps/admin: admin panel
+- apps/realtime: realtime service
+- apps/worker: background worker
 - packages: shared packages
 - prisma: database schema and migrations
 - docker-compose.yml: local infrastructure setup

@@ -1,19 +1,17 @@
-# راهنمای خیلی ساده برای شروع با این پروژه
+# راهنمای خیلی ساده برای شروع
 
 اگر برای اولین بار با این پروژه کار می‌کنید، این راهنما را دقیق دنبال کنید.
 
-## 1) اول از همه این‌ها را نصب کنید
+## 1) پیش‌نیازها
 
-روی لپ‌تاپ خود باید این موارد نصب باشند:
+روی سیستم شما باید این موارد نصب باشد:
 
-- Node.js
+- Node.js 20+
 - pnpm
 - Docker
 - Git
 
-### چک کنید
-
-در ترمینال این دستورها را اجرا کنید:
+بررسی نصب‌ها:
 
 ```bash
 node -v
@@ -22,9 +20,7 @@ docker --version
 git --version
 ```
 
-اگر چیزی نبود، آن را نصب کنید.
-
-### اگر pnpm نصب نیست
+اگر pnpm نصب نیست:
 
 ```bash
 npm install -g pnpm
@@ -32,11 +28,11 @@ npm install -g pnpm
 
 ---
 
-## 2) پروژه را دانلود کنید
+## 2) پروژه را دانلود و وارد پوشه شوید
 
 ```bash
-git clone <آدرس-ریپوزیتوری>
-cd castaminofen-FULLStack-starter
+git clone <repository-url>
+cd castaminofen-FULLStack-starter-V0.1.3
 ```
 
 ---
@@ -47,23 +43,20 @@ cd castaminofen-FULLStack-starter
 pnpm install
 ```
 
-این مرحله چند دقیقه طول می‌کشد. صبور باشید.
-
 ---
 
-## 4) فایل محیطی را آماده کنید
+## 4) فایل محیطی را بسازید
 
 ```bash
-cp .env.example .env
-```
-
-این فایل را باز کنید و مطمئن شوید این‌ها داخلش هستند:
-
-```env
+cat > .env <<'EOF'
 NODE_ENV=development
 PORT=3000
+NEXT_PUBLIC_API_URL=http://localhost:3000
 DATABASE_URL=postgresql://postgres:postgres@localhost:5432/castaminofen
 REDIS_URL=redis://localhost:6379
+REALTIME_PORT=4100
+REALTIME_HOST=0.0.0.0
+EOF
 ```
 
 ---
@@ -74,7 +67,7 @@ REDIS_URL=redis://localhost:6379
 docker compose up -d postgres redis
 ```
 
-اگر خواستید ببینید درست اجرا شده‌اند:
+برای چک وضعیت:
 
 ```bash
 docker compose ps
@@ -85,7 +78,7 @@ docker compose ps
 ## 6) دیتابیس را آماده کنید
 
 ```bash
-pnpm prisma migrate dev
+pnpm exec prisma migrate dev
 ```
 
 ---
@@ -96,15 +89,14 @@ pnpm prisma migrate dev
 pnpm dev
 ```
 
-بعد از اجرا، این آدرس را در مرورگر باز کنید:
+بعد از اجرا، این آدرس‌ها را در مرورگر باز کنید:
 
-```text
-http://localhost:3000
-```
+- http://localhost:3000
+- http://localhost:3001
 
 ---
 
-## 8) اگر چیزی اشتباه شد
+## 8) اگر مشکلی پیش آمد
 
 ### اگر Docker کار نمی‌کند
 
@@ -113,7 +105,7 @@ docker compose down
 docker compose up -d postgres redis
 ```
 
-### اگر نصب وابستگی‌ها مشکل داشت
+### اگر وابستگی‌ها مشکل داشت
 
 ```bash
 rm -rf node_modules
@@ -130,14 +122,20 @@ docker compose restart postgres
 
 ## 9) خلاصه‌ی خیلی کوتاه
 
-اگر بخواهید فقط سریع شروع کنید، این 5 دستور را اجرا کنید:
+اگر بخواهید فقط سریع شروع کنید، این دستورات را اجرا کنید:
 
 ```bash
 pnpm install
-cp .env.example .env
+cat > .env <<'EOF'
+NODE_ENV=development
+PORT=3000
+NEXT_PUBLIC_API_URL=http://localhost:3000
+DATABASE_URL=postgresql://postgres:postgres@localhost:5432/castaminofen
+REDIS_URL=redis://localhost:6379
+REALTIME_PORT=4100
+REALTIME_HOST=0.0.0.0
+EOF
 docker compose up -d postgres redis
-pnpm prisma migrate dev
+pnpm exec prisma migrate dev
 pnpm dev
 ```
-
-اگر بخواهید، در مرحله بعد می‌توانم همین دو فایل را به شکل خیلی بهتر و با ظاهر رسمی‌تر برای GitHub یا تیم شما آماده کنم.
