@@ -27,7 +27,7 @@
     "class-validator": "^0.14.2",
     "express": "^4.21.2",
     "jsonwebtoken": "^9.0.3",
-    "meilisearch": "^0.31.0",
+    "meilisearch": "^0.59.0",
     "reflect-metadata": "^0.2.2",
     "rxjs": "^7.6.0"
   },
