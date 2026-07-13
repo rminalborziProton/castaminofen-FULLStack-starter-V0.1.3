@@ -96,6 +96,54 @@ CREATE TABLE "tags" (
 );
 
 -- CreateTable
+CREATE TABLE "search_synonyms" (
+    "id" TEXT NOT NULL,
+    "source" TEXT NOT NULL,
+    "target" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "search_synonyms_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateIndex
+CREATE INDEX "search_synonyms_source_index" ON "search_synonyms"("source");
+
+-- CreateIndex
+CREATE INDEX "search_synonyms_target_index" ON "search_synonyms"("target");
+
+-- CreateTable
+CREATE TABLE "search_recent_queries" (
+    "id" TEXT NOT NULL,
+    "userId" TEXT,
+    "query" TEXT NOT NULL,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "search_recent_queries_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateIndex
+CREATE UNIQUE INDEX "search_recent_queries_userId_query_key" ON "search_recent_queries"("userId", "query");
+
+-- CreateIndex
+CREATE INDEX "search_recent_queries_userId_index" ON "search_recent_queries"("userId");
+
+-- CreateTable
+CREATE TABLE "search_analytics_events" (
+    "id" TEXT NOT NULL,
+    "query" TEXT NOT NULL,
+    "resultsCount" INTEGER NOT NULL,
+    "source" TEXT,
+    "userId" TEXT,
+    "filters" JSON,
+    "createdAt" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+
+    CONSTRAINT "search_analytics_events_pkey" PRIMARY KEY ("id")
+);
+
+-- CreateIndex
+CREATE INDEX "search_analytics_events_createdAt_index" ON "search_analytics_events"("createdAt");
+
+-- CreateTable
 CREATE TABLE "playlists" (
     "id" TEXT NOT NULL,
     "userId" TEXT NOT NULL,

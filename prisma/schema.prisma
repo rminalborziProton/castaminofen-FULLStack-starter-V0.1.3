@@ -124,6 +124,41 @@ model Tag {
   @@map("tags")
 }
 
+model SearchSynonym {
+  id        String   @id @default(cuid())
+  source    String
+  target    String
+  createdAt DateTime @default(now())
+
+  @@map("search_synonyms")
+  @@index([source])
+  @@index([target])
+}
+
+model SearchRecentQuery {
+  id        String   @id @default(cuid())
+  userId    String?
+  query     String
+  createdAt DateTime @default(now())
+
+  @@map("search_recent_queries")
+  @@unique([userId, query])
+  @@index([userId])
+}
+
+model SearchAnalyticsEvent {
+  id           String   @id @default(cuid())
+  query        String
+  resultsCount Int
+  source       String?
+  userId       String?
+  filters      Json?
+  createdAt    DateTime @default(now())
+
+  @@map("search_analytics_events")
+  @@index([createdAt])
+}
+
 model Playlist {
   id        String   @id @default(cuid())
   userId    String
